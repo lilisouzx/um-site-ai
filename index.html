@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>EVELYN</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;700&display=swap" rel="stylesheet"/>
+
+
+  <link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+
+
+  <div class="overlay" id="overlay" onclick="fecharTudo()"></div>
+
+
+  <div class="popup" id="popup-contas">
+
+    <div class="popup-icone">🕷️</div>
+    <h2 class="popup-titulo">Duvido resolver as contas</h2>
+    <p class="popup-subtitulo">
+      Cada acerto ganha um beijinho!
+    </p>
+
+    <!-- GRADE DAS 6 CONTAS -->
+    <div class="grade-contas">
+
+      <!-- ── CONTA 1 ── Graus Sul (22) ──────── -->
+      <div class="conta-item" id="grupo-1">
+        <span class="conta-label">11 × 2 =</span>
+        <input
+          type="number"
+          class="conta-input"
+          id="conta-1"
+          placeholder="?"
+          oninput="verificarConta(1, 22)"
+        />
+
+        <span class="conta-check" id="check-1">✔</span>
+      </div>
+
+      <!-- ── CONTA 2 ── Minutos Sul (48) ───── -->
+      <div class="conta-item" id="grupo-2">
+        <span class="conta-label">6 × 8 =</span>
+        <input
+          type="number"
+          class="conta-input"
+          id="conta-2"
+          placeholder="?"
+          oninput="verificarConta(2, 48)"
+        />
+        <span class="conta-check" id="check-2">✔</span>
+      </div>
+
+      <!-- ── CONTA 3 ── Segundos Sul (24) ──── -->
+      <div class="conta-item" id="grupo-3">
+        <span class="conta-label">4 × 6 =</span>
+        <input
+          type="number"
+          class="conta-input"
+          id="conta-3"
+          placeholder="?"
+          oninput="verificarConta(3, 24)"
+        />
+        <span class="conta-check" id="check-3">✔</span>
+      </div>
+
+      <!-- ── CONTA 4 ── Graus Oeste (43) ───── -->
+      <div class="conta-item" id="grupo-4">
+        <span class="conta-label">86 ÷ 2 =</span>
+        <input
+          type="number"
+          class="conta-input"
+          id="conta-4"
+          placeholder="?"
+          oninput="verificarConta(4, 43)"
+        />
+        <span class="conta-check" id="check-4">✔</span>
+      </div>
+
+      <!-- ── CONTA 5 ── Minutos Oeste (3) ──── -->
+      <div class="conta-item" id="grupo-5">
+        <span class="conta-label">15 − 12 =</span>
+        <input
+          type="number"
+          class="conta-input"
+          id="conta-5"
+          placeholder="?"
+          oninput="verificarConta(5, 3)"
+        />
+        <span class="conta-check" id="check-5">✔</span>
+      </div>
+
+      <!-- ── CONTA 6 ── Segundos Oeste (58) ── -->
+      <div class="conta-item" id="grupo-6">
+        <span class="conta-label">29 × 2 =</span>
+        <input
+          type="number"
+          class="conta-input"
+          id="conta-6"
+          placeholder="?"
+          oninput="verificarConta(6, 58)"
+        />
+        <span class="conta-check" id="check-6">✔</span>
+      </div>
+
+    </div>
+   
+
+    <!-- Coordenada se montando em tempo real -->
+    <div class="coordenada-preview" id="coordenada-preview">
+      <span id="p1">??</span>°<span id="p2">??</span>'<span id="p3">??.09</span>"S
+      &nbsp;
+      <span id="p4">??</span>°<span id="p5">??</span>'<span id="p6">??.18</span>"W
+    </div>
+    <!--
+      Os <span> com id="p1"...id="p6" são preenchidos pelo JS
+      à medida que cada conta é resolvida.
+      Os decimais (.09 e .18) já aparecem fixos.
+    -->
+
+    <!-- Progresso (ex: 3/6) -->
+    <p class="progresso" id="progresso">0 / 6 resolvidas</p>
+
+    <button class="botao-fechar" onclick="fecharTudo()">✕ Fechar</button>
+  </div>
+  
+
+
+  <!-- ══════════════════════════════════════════
+    POPUP 2 — COORDENADA COMPLETA + CAMPO DA RUA
+    → Aparece automaticamente quando as 6 contas são resolvidas
+    → A pessoa pesquisa no Maps e digita o nome da rua
+  ══════════════════════════════════════════ -->
+  <div class="popup" id="popup-rua">
+
+    <div class="popup-icone">📍</div>
+    <h2 class="popup-titulo">Coordenada revelada</h2>
+
+    <!-- Exibe a coordenada completa -->
+    <div class="coordenada-final">
+      22°48'24.09"S &nbsp; 43°03'58.18"W
+    </div>
+
+    <!-- Link que abre o Google Maps direto na coordenada -->
+    <a
+      href="https://maps.google.com/?q=-22.806692,-43.066161"
+      target="_blank"
+      class="botao-maps"
+    >
+      Abrir no Google Maps
+    </a>
+    
+
+    <p class="popup-subtitulo">Pesquise a coordenada e descubra o nome da rua!</p>
+
+    
+    <input
+      type="text"
+      id="campo-rua"
+      class="campo-resposta"
+      placeholder="Digite o nome da rua..."
+    />
+
+    
+    <p class="mensagem-erro" id="erro-rua">❌ Hmm, não é essa rua. Tente de novo!</p>
+
+    
+    <button class="botao-confirmar" onclick="verificarRua()">Confirmar ✔</button>
+
+    <button class="botao-fechar" onclick="fecharTudo()">✕ Fechar</button>
+  </div>
+  
+
+
+  <!-- ══════════════════════════════════════════
+    PÁGINA PRINCIPAL VISÍVEL
+  ══════════════════════════════════════════ -->
+  <main class="container">
+
+    <!-- TÍTULO — MUDE o texto -->
+    <h1 class="titulo-principal">Spider Evelyn</h1>
+
+    <!-- SUBTÍTULO — MUDE ou apague -->
+    <p class="subtitulo">Desafio</p>
+
+
+
+   
+    <div class="spiderman-wrapper" onclick="abrirContas()" title="Clique em mim!">
+      <img src="https://www.pngarts.com/files/3/Spider-Man-Cartoon-PNG-Image-Background.png" class="spiderman-img"/>
+    </div>
+
+    <p class="dica-clique">Não clique no homem aranha</p>
+
+  </main>
+
+
+
+  <script src="script.js"></script>
+</body>
+</html>
